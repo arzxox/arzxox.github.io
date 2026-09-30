@@ -6,671 +6,364 @@
 <title>Abdul Aris Ibrahim — SOC & Defensive Security Analyst</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
-  :root {
-    --bg: #10151a;
-    --bg-raised: #161d24;
-    --ink: #eae6da;
-    --ink-dim: #9aa3a8;
-    --ink-faint: #5c666b;
-    --amber: #c9a227;
-    --teal: #4a8f8c;
-    --line: #2a333a;
-    --max: 640px;
-  }
+:root{
+  --bg:#080b17; --panel:#0f1428; --panel2:#151b36; --line:#222a4d;
+  --ink:#e8ecff; --dim:#8b93b8; --sig:#4cc9ff; --alert:#ff5d73; --ok:#7dffb2;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.65 'Sora',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--sig);text-decoration:none}
+a:focus-visible,button:focus-visible{outline:2px solid var(--sig);outline-offset:3px}
+::selection{background:var(--sig);color:#04101a}
+.mono{font-family:'JetBrains Mono',monospace}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
 
-  @media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
-      --bg: #f3f0e8;
-      --bg-raised: #ebe7dc;
-      --ink: #1c2024;
-      --ink-dim: #565f63;
-      --ink-faint: #8b9296;
-      --amber: #9c7a10;
-      --teal: #2f6663;
-      --line: #d8d2c2;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #10151a;
-    --bg-raised: #161d24;
-    --ink: #eae6da;
-    --ink-dim: #9aa3a8;
-    --ink-faint: #5c666b;
-    --amber: #c9a227;
-    --teal: #4a8f8c;
-    --line: #2a333a;
-  }
-  :root[data-theme="light"] {
-    --bg: #f3f0e8;
-    --bg-raised: #ebe7dc;
-    --ink: #1c2024;
-    --ink-dim: #565f63;
-    --ink-faint: #8b9296;
-    --amber: #9c7a10;
-    --teal: #2f6663;
-    --line: #d8d2c2;
-  }
+#bg{position:fixed;inset:0;z-index:0;width:100%;height:100%}
+main,header,footer{position:relative;z-index:1}
+#progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--sig),var(--alert));z-index:50}
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'IBM Plex Sans', system-ui, sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    transition: background .3s ease, color .3s ease;
-  }
+/* nav */
+.top{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(8,11,23,.7);border-bottom:1px solid var(--line)}
+.top-in{max-width:1080px;margin:0 auto;padding:14px 28px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:700;letter-spacing:-.02em}
+.logo i{color:var(--alert);font-style:normal}
+.top nav{display:flex;gap:26px}
+.top nav a{color:var(--dim);font-size:.9rem;position:relative;transition:color .2s}
+.top nav a::after{content:"";position:absolute;left:0;bottom:-6px;height:2px;width:0;background:var(--sig);transition:width .25s}
+.top nav a:hover,.top nav a.on{color:var(--ink)}
+.top nav a:hover::after,.top nav a.on::after{width:100%}
 
-  a { color: var(--amber); text-decoration: none; }
-  a:hover { text-decoration: underline; }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; }
+/* hero */
+.hero{min-height:calc(100vh - 58px);display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding:56px 0}
+.status{display:inline-flex;align-items:center;gap:10px;font:500 .8rem 'JetBrains Mono',monospace;color:var(--ok);border:1px solid var(--line);background:var(--panel);padding:6px 14px;border-radius:99px;margin-bottom:26px}
+.status b{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(125,255,178,.7)}100%{box-shadow:0 0 0 12px rgba(125,255,178,0)}}
+h1{font-size:clamp(2.3rem,5.4vw,4rem);line-height:1.08;letter-spacing:-.035em;margin:0 0 22px;font-weight:700;min-height:2.2em}
+.caret{display:inline-block;width:.09em;height:.95em;background:var(--sig);vertical-align:-.1em;margin-left:4px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.lede{color:var(--dim);max-width:540px;margin:0 0 32px}
+.cta{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:28px}
+.btn{display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border-radius:10px;font-weight:600;font-size:.93rem;transition:transform .2s,box-shadow .2s,border-color .2s}
+.btn.p{background:var(--sig);color:#04101a}
+.btn.p:hover{transform:translateY(-3px);box-shadow:0 10px 30px -8px var(--sig)}
+.btn.s{border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.btn.s:hover{border-color:var(--sig);transform:translateY(-3px)}
+.social{display:flex;gap:12px}
+.social a{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);border-radius:10px;color:var(--dim);transition:.2s}
+.social a:hover{color:var(--sig);border-color:var(--sig);transform:translateY(-3px) rotate(-6deg)}
 
-  ::selection { background: var(--amber); color: #10151a; }
+/* console */
+.console{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px -30px rgba(76,201,255,.25)}
+.console-h{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);font:.72rem 'JetBrains Mono',monospace;color:var(--dim)}
+.console-h span{width:10px;height:10px;border-radius:50%;background:#2c3563}
+.console-h span:first-child{background:var(--alert)}
+.console-h em{margin-left:auto;font-style:normal}
+#feed{height:310px;padding:14px 16px;font:.76rem/1.75 'JetBrains Mono',monospace;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+#feed div{animation:in .35s ease;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@keyframes in{from{opacity:0;transform:translateX(-10px)}}
+.t{color:#5b6591}.warn{color:var(--alert)}.info{color:var(--sig)}.good{color:var(--ok)}
 
-  .wrap {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 0 28px;
-  }
+/* sections */
+section{padding:96px 0 24px}
+.sh{display:flex;align-items:baseline;gap:18px;margin-bottom:38px}
+.sh h2{font-size:clamp(1.6rem,3.4vw,2.3rem);letter-spacing:-.03em;margin:0}
+.sh::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
 
-  /* ---- top bar ---- */
-  header.topbar {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    backdrop-filter: blur(10px);
-    background: color-mix(in srgb, var(--bg) 82%, transparent);
-    border-bottom: 1px solid var(--line);
-  }
-  .topbar-inner {
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 16px 28px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .mark {
-    font-family: 'Fraunces', serif;
-    font-size: 1.15rem;
-    font-weight: 600;
-    letter-spacing: -.01em;
-  }
-  .mark span { color: var(--amber); }
-  .topbar nav { display: flex; gap: 22px; align-items: center; }
-  .topbar nav a {
-    color: var(--ink-dim);
-    font-size: .92rem;
-  }
-  .topbar nav a:hover { color: var(--ink); text-decoration: none; }
-  #theme-toggle {
-    background: none;
-    border: 1px solid var(--line);
-    color: var(--ink-dim);
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .85rem;
-  }
-  #theme-toggle:hover { border-color: var(--amber); color: var(--amber); }
+/* labs */
+.labs{display:grid;gap:22px}
+.lab{position:relative;display:grid;grid-template-columns:120px 1fr;gap:28px;padding:30px;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:border-color .3s,transform .15s;transform-style:preserve-3d}
+.lab::before{content:"";position:absolute;inset:0;background:radial-gradient(400px circle at var(--mx,50%) var(--my,50%),rgba(76,201,255,.13),transparent 60%);opacity:0;transition:opacity .3s}
+.lab:hover{border-color:#37427a}
+.lab:hover::before{opacity:1}
+.lab>*{position:relative}
+.year{font:500 .8rem 'JetBrains Mono',monospace;color:var(--dim);line-height:1.6}
+.year b{display:block;font-size:2rem;color:var(--ink);letter-spacing:-.03em;font-family:'Sora'}
+.lab h3{margin:0 0 6px;font-size:1.25rem;letter-spacing:-.02em}
+.badge{display:inline-flex;gap:7px;align-items:center;font:500 .74rem 'JetBrains Mono',monospace;color:var(--alert);border:1px solid rgba(255,93,115,.4);background:rgba(255,93,115,.08);padding:3px 11px;border-radius:99px;margin-bottom:14px}
+.lab p{color:var(--dim);margin:0 0 16px;font-size:.95rem}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.tags span{font:.74rem 'JetBrains Mono',monospace;padding:4px 11px;border-radius:6px;background:var(--panel2);color:#b7c0ee;border:1px solid var(--line);transition:.2s}
+.lab:hover .tags span{border-color:#37427a}
+.more{font-weight:600;font-size:.9rem;display:inline-flex;gap:8px;align-items:center}
+.more i{transition:transform .25s}
+.more:hover i{transform:translateX(6px)}
 
-  /* ---- hero ---- */
-  .hero {
-    padding: 72px 0 72px;
-    max-width: var(--max);
-    position: relative; 
-    overflow: hidden;
-  }
-  .hero::after {
-    content: "010101  //  DEFENSE  //  101010";
-    position: absolute;
-    right: -10px;
-    top: 58px;
-    writing-mode: vertical-rl;
-    font: 500 .65rem/1.8 'IBM Plex Mono', monospace;
-    color: var(--ink-faint);
-    opacity: .65;
-    letter-spacing: .12em;
-  }
-  .profile-avatar-container {
-    margin-bottom: 24px;
-    opacity: 0;
-    animation: rise .6s ease forwards;
-  }
-  .profile-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--amber);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    background: var(--bg-raised);
-    display: block;
-  }
-  .hero .kicker {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .85rem;
-    color: var(--teal);
-    margin: 0 0 18px;
-    opacity: 0;
-    animation: rise .6s ease .04s forwards;
-  }
-  .hero h1 {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: clamp(2.4rem, 6vw, 3.6rem);
-    line-height: 1.08;
-    letter-spacing: -.01em;
-    margin: 0 0 22px;
-    opacity: 0;
-    animation: rise .7s ease .08s forwards;
-  }
-  .hero h1 em {
-    font-style: italic;
-    color: var(--amber);
-  }
-  .hero p.lede {
-    font-size: 1.08rem;
-    color: var(--ink-dim);
-    max-width: 540px;
-    margin: 0 0 34px;
-    opacity: 0;
-    animation: rise .7s ease .16s forwards;
-  }
-  .hero .cta-group {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    align-items: center;
-    opacity: 0;
-    animation: rise .7s ease .24s forwards;
-  }
-  .btn-primary {
-    background: var(--amber);
-    color: #10151a !important;
-    font-weight: 600;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-size: .95rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: opacity .2s;
-  }
-  .btn-primary:hover { opacity: 0.9; text-decoration: none !important; }
-  .btn-secondary {
-    border: 1px solid var(--line);
-    color: var(--ink) !important;
-    font-weight: 500;
-    padding: 10px 20px;
-    border-radius: 6px;
-    font-size: .95rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--bg-raised);
-    transition: border-color .2s, color .2s;
-  }
-  .btn-secondary:hover { border-color: var(--amber); color: var(--amber) !important; text-decoration: none !important; }
+/* skills */
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{padding:26px 22px;background:var(--panel);border:1px solid var(--line);border-radius:14px;transition:transform .3s,border-color .3s}
+.card:hover{transform:translateY(-8px);border-color:var(--sig)}
+.card i{font-size:1.4rem;color:var(--sig);margin-bottom:18px;display:block;transition:transform .4s}
+.card:hover i{transform:scale(1.25) rotate(-8deg)}
+.card h3{font-size:1rem;margin:0 0 10px;letter-spacing:-.01em}
+.card p{font-size:.85rem;color:var(--dim);margin:0}
 
-  .hero-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 30px;
-    font: 500 .72rem 'IBM Plex Mono', monospace;
-  }
-  .hero-meta a {
-    color: var(--ink-dim);
-    padding: 8px 14px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--bg-raised) 65%, transparent);
-    display: inline-flex;
-    align-items: center;
-    transition: border-color .2s, color .2s;
-  }
-  .hero-meta a:hover {
-    border-color: var(--amber);
-    color: var(--amber);
-    text-decoration: none;
-  }
-  .hero-meta i { color: var(--teal); margin-right: 8px; }
+/* cert */
+.cert{display:grid;grid-template-columns:64px 1fr auto;gap:22px;align-items:center;padding:26px 30px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.seal{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-size:1.5rem;color:var(--ok);border:2px dashed rgba(125,255,178,.5);animation:spin 18s linear infinite}
+.seal i{animation:spin 18s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.cert h3{margin:0 0 4px;font-size:1.15rem}
+.cert p{margin:0;color:var(--dim);font-size:.9rem}
+.pass{font:500 .82rem 'JetBrains Mono',monospace;color:var(--ok);background:rgba(125,255,178,.09);border:1px solid rgba(125,255,178,.35);padding:6px 16px;border-radius:99px}
 
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .profile-avatar-container, .hero .kicker, .hero h1, .hero p.lede, .hero .cta-group { animation: none; opacity: 1; }
-  }
+/* mindset */
+.mind{color:var(--dim);max-width:62ch;margin:0 0 30px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid2 .card{border-left:3px solid var(--alert)}
+.grid2 .card:hover{border-color:var(--alert)}
 
-  /* ---- section scaffolding ---- */
-  section { padding: 64px 0; border-top: 1px solid var(--line); }
-  .section-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 40px;
-  }
-  .section-head h2 {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 1.7rem;
-    margin: 0;
-  }
-  .section-head .count {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .82rem;
-    color: var(--ink-faint);
-  }
+/* contact */
+.big{font-size:clamp(1.5rem,3.4vw,2.4rem);letter-spacing:-.03em;line-height:1.2;max-width:22ch;margin:0 0 34px;font-weight:600}
+.rows{border-top:1px solid var(--line)}
+.row{display:flex;gap:24px;padding:18px 6px;border-bottom:1px solid var(--line);transition:padding .25s,background .25s}
+.row:hover{padding-left:20px;background:linear-gradient(90deg,rgba(76,201,255,.08),transparent)}
+.row span{width:100px;color:var(--dim);font:.82rem 'JetBrains Mono',monospace;padding-top:3px}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:56px 0 40px;color:var(--dim);font:.78rem 'JetBrains Mono',monospace}
 
-  /* ---- projects ---- */
-  .project {
-    display: grid;
-    grid-template-columns: 168px 1fr;
-    gap: 28px;
-    padding: 30px 0;
-    border-bottom: 1px solid var(--line);
-    transition: transform .25s ease, border-color .25s ease, background .25s ease;
-  }
-  .project:last-child { border-bottom: none; padding-bottom: 0; }
-  .project:first-child { padding-top: 0; }
-  .project:hover { transform: translateX(5px); }
-  .project .period {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .8rem;
-    color: var(--ink-faint);
-    padding-top: 4px;
-  }
-  .project-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .project h3 {
-    font-family: 'Fraunces', serif;
-    font-weight: 500;
-    font-size: 1.28rem;
-    margin: 0 0 10px;
-  }
-  .project p {
-    color: var(--ink-dim);
-    margin: 0 0 14px;
-    max-width: 52ch;
-  }
-  .stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  .stack span {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .74rem;
-    color: var(--teal);
-    border: 1px solid var(--line);
-    padding: 3px 9px;
-    border-radius: 3px;
-  }
-  .project-link {
-    font-size: .88rem;
-    color: var(--ink);
-    border-bottom: 1px solid var(--line);
-  }
-  .project-link:hover { border-color: var(--amber); color: var(--amber); }
-  .badge {
-    font: 500 .68rem 'IBM Plex Mono', monospace;
-    color: var(--teal);
-    border: 1px solid var(--line);
-    padding: 5px 8px;
-    border-radius: 999px;
-    white-space: nowrap;
-  }
-  .badge i { margin-right: 5px; }
-  .featured-project {
-    padding: 26px 20px 30px;
-    margin: 0 -20px;
-    border: 1px solid var(--line);
-    background: linear-gradient(135deg, color-mix(in srgb, var(--bg-raised) 88%, transparent), transparent);
-  }
-
-  /* ---- toolkit ---- */
-  .tool-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-  }
-  .tool-card {
-    background: var(--bg);
-    padding: 25px;
-    min-height: 170px;
-    transition: background .25s ease;
-  }
-  .tool-card:hover { background: var(--bg-raised); }
-  .tool-card i { font-size: 1.2rem; color: var(--amber); margin-bottom: 18px; }
-  .tool-card h3 { font-family: 'Fraunces', serif; font-size: 1.18rem; font-weight: 500; margin: 0 0 7px; }
-  .tool-card p { color: var(--ink-dim); margin: 0; font-size: .92rem; }
-
-  /* ---- certs ---- */
-  .cert-list { display: grid; gap: 14px; }
-  .cert-card {
-    display: grid;
-    grid-template-columns: 52px 1fr auto;
-    align-items: center;
-    gap: 20px;
-    border: 1px solid var(--line);
-    padding: 22px;
-    background: var(--bg-raised);
-    transition: transform .25s ease, border-color .25s ease;
-  }
-  .cert-card:hover { border-color: var(--amber); transform: translateY(-2px); }
-  .cert-icon {
-    width: 46px; height: 46px;
-    display: grid; place-items: center;
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    color: var(--amber);
-    background: var(--bg);
-  }
-  .cert-type {
-    font: 500 .68rem 'IBM Plex Mono', monospace;
-    color: var(--teal);
-    margin: 0 0 5px;
-  }
-  .cert-card h3 { margin: 0 0 6px; font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.2rem; }
-  .cert-card p:not(.cert-type) { margin: 0; color: var(--ink-dim); font-size: .9rem; max-width: 65ch; }
-  .cert-status {
-    font: 500 .68rem 'IBM Plex Mono', monospace;
-    color: var(--teal);
-    border: 1px solid var(--line);
-    padding: 5px 8px;
-    border-radius: 999px;
-    white-space: nowrap;
-  }
-
-  /* ---- security / credentials ---- */
-  .cred-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: var(--line);
-    border: 1px solid var(--line);
-  }
-  .cred {
-    background: var(--bg);
-    padding: 24px;
-  }
-  .cred h4 {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: .78rem;
-    color: var(--amber);
-    margin: 0 0 10px;
-    font-weight: 500;
-  }
-  .cred p { margin: 0; color: var(--ink-dim); font-size: .95rem; }
-
-  /* ---- contact ---- */
-  .contact p.big {
-    font-family: 'Fraunces', serif;
-    font-size: clamp(1.5rem, 4vw, 2.1rem);
-    max-width: 560px;
-    margin: 0 0 32px;
-    color: var(--ink);
-  }
-  .contact-rows { display: flex; flex-direction: column; gap: 2px; max-width: 460px; }
-  .contact-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--line);
-  }
-  .contact-row .label { color: var(--ink-faint); font-family: 'IBM Plex Mono', monospace; font-size: .8rem; }
-  .contact-row a { color: var(--ink); font-size: .98rem; }
-  .contact-row a:hover { color: var(--amber); }
-
-  footer {
-    padding: 32px 0 48px;
-    color: var(--ink-faint);
-    font-size: .82rem;
-    font-family: 'IBM Plex Mono', monospace;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  @media (max-width: 640px) {
-    .hero::after { display: none; }
-    .project { grid-template-columns: 1fr; gap: 8px; }
-    .tool-grid, .cred-grid { grid-template-columns: 1fr; }
-    .cert-card { grid-template-columns: 44px 1fr; }
-    .cert-status { grid-column: 2; justify-self: start; }
-    .project-top { align-items: flex-start; }
-    .featured-project { margin: 0; }
-  }
+@media(max-width:900px){.hero{grid-template-columns:1fr;min-height:0}.grid4{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.top nav{gap:14px}.top nav a{font-size:.78rem}.lab{grid-template-columns:1fr;gap:10px;padding:24px}.grid4,.grid2{grid-template-columns:1fr}.cert{grid-template-columns:52px 1fr}.pass{grid-column:2;justify-self:start}.row{flex-direction:column;gap:2px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
 </head>
 <body>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div id="progress"></div>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="mark">Abdul Aris Ibrahim<span>.</span></div>
+<header class="top">
+  <div class="top-in">
+    <div class="logo">Abdul Aris Ibrahim<i>.</i></div>
     <nav>
       <a href="#work">Labs</a>
       <a href="#projects">Skills</a>
       <a href="#certificates">Certificates</a>
       <a href="#security">Mindset</a>
       <a href="#contact">Contact</a>
-      <button id="theme-toggle" aria-label="Toggle color theme">◐</button>
     </nav>
   </div>
 </header>
 
-<div class="wrap">
-
-  <section class="hero" style="border-top:none;">
-    <p class="kicker">// Defensive Security &amp; SOC Analyst</p>
-    <h1>Monitoring, Analyzing &amp; Defending <em>Digital Assets.</em></h1>
-    <p class="lede">Entry-level Cybersecurity Analyst focused on SOC operations, SIEM monitoring, threat detection, and web security. Experienced in analyzing attack vectors, investigating telemetry, and engineering hands-on defensive labs to mitigate real-world vulnerabilities.</p>
-    
-    <div class="cta-group">
-      <a href="#work" class="btn-primary"><i class="fa-solid fa-shield-halved"></i> Explore Labs</a>
-      <!-- Google Drive Resume Link -->
-      <a href="https://drive.google.com/file/d/1xfPqrWw9wInpGVpDUrO6Hq7yvJb0fjNi/view?usp=drive_link" class="btn-secondary" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i> Resume PDF</a>
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <div class="status"><b></b>Open to SOC analyst roles</div>
+      <h1 id="type" aria-label="Monitoring, analyzing and defending digital assets."></h1>
+      <p class="lede">Entry-level Cybersecurity Analyst focused on SOC operations, SIEM monitoring, threat detection, and web security. Experienced in analyzing attack vectors, investigating telemetry, and engineering hands-on defensive labs to mitigate real-world vulnerabilities.</p>
+      <div class="cta">
+        <a href="#work" class="btn p"><i class="fa-solid fa-shield-halved"></i> Explore labs</a>
+        <a href="https://drive.google.com/file/d/1xfPqrWw9wInpGVpDUrO6Hq7yvJb0fjNi/view?usp=drive_link" class="btn s" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf"></i> Resume PDF</a>
+      </div>
+      <div class="social">
+        <a href="https://github.com/arzxox" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/abdul-aris-ibrahim-844a21154/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="https://tryhackme.com/p/arzxox" target="_blank" rel="noopener" aria-label="TryHackMe"><i class="fa-solid fa-terminal"></i></a>
+      </div>
     </div>
-
-    <div class="hero-meta">
-      <a href="https://github.com/arzxox" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
-      <a href="https://www.linkedin.com/in/abdul-aris-ibrahim-844a21154/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
-      <a href="https://tryhackme.com/p/arzxox" target="_blank" rel="noopener"><i class="fa-solid fa-terminal"></i> TryHackMe</a>
+    <div class="console" aria-label="Simulated SOC alert feed">
+      <div class="console-h"><span></span><span></span><span></span><em>soc-console · simulated feed</em></div>
+      <div id="feed"></div>
     </div>
-  </section>
+  </div>
 
   <section id="work">
-    <div class="section-head">
-      <h2>Featured Security Labs</h2>
-      <span class="count">03</span>
-    </div>
-
-    <div class="project featured-project">
-      <div class="period">2026 · WEB DEFENSE</div>
-      <div>
-        <div class="project-top">
+    <div class="sh rv"><h2>Featured security labs</h2></div>
+    <div class="labs">
+      <article class="lab rv">
+        <div class="year"><b>2026</b>Web defense</div>
+        <div>
           <h3>VulnShop — OWASP Top 10 Security &amp; Remediation Lab</h3>
           <span class="badge"><i class="fa-solid fa-shield-cat"></i> Defense &amp; Hardening</span>
+          <p>A web security lab built to analyze common application vulnerabilities (SQLi, XSS, Broken Access Control). Analyzed exploit payloads and engineered code-level patches and input sanitization to secure the application against OWASP Top 10 threats.</p>
+          <div class="tags"><span>Web Security</span><span>OWASP Top 10</span><span>Burp Suite</span><span>Log Analysis</span><span>Patching &amp; Defense</span></div>
+          <a class="more" href="https://github.com/arzxox/vulnshop-owasp-top10-2025" target="_blank" rel="noopener">View analysis &amp; code on GitHub <i class="fa-solid fa-arrow-right"></i></a>
         </div>
-        <p>A web security lab built to analyze common application vulnerabilities (SQLi, XSS, Broken Access Control). Analyzed exploit payloads and engineered code-level patches and input sanitization to secure the application against OWASP Top 10 threats.</p>
-        <div class="stack">
-          <span>Web Security</span>
-          <span>OWASP Top 10</span>
-          <span>Burp Suite</span>
-          <span>Log Analysis</span>
-          <span>Patching &amp; Defense</span>
-        </div>
-        <a class="project-link" href="https://github.com/arzxox/vulnshop-owasp-top10-2025" target="_blank" rel="noopener">View Analysis &amp; Code on GitHub →</a>
-      </div>
-    </div>
-
-    <div class="project featured-project">
-      <div class="period">2026 · THREAT ANALYSIS</div>
-      <div>
-        <div class="project-top">
+      </article>
+      <article class="lab rv">
+        <div class="year"><b>2026</b>Threat analysis</div>
+        <div>
           <h3>Vought-Labs: Breach Protocol &amp; Forensics</h3>
           <span class="badge"><i class="fa-solid fa-bug"></i> Threat Detection</span>
+          <p>Designed and analyzed a multi-stage intrusion scenario involving web enumeration, command injection, and Linux privilege escalation. Authored detailed incident reports and detection signatures to identify malicious activity during initial access.</p>
+          <div class="tags"><span>Nmap</span><span>Network Forensics</span><span>Linux Logs</span><span>Incident Reporting</span><span>Threat Detection</span></div>
+          <a class="more" href="https://github.com/arzxox/Vought-Labs-Breach-Protocol-writeup" target="_blank" rel="noopener">Read technical report on GitHub <i class="fa-solid fa-arrow-right"></i></a>
         </div>
-        <p>Designed and analyzed a multi-stage intrusion scenario involving web enumeration, command injection, and Linux privilege escalation. Authored detailed incident reports and detection signatures to identify malicious activity during initial access.</p>
-        <div class="stack">
-          <span>Nmap</span>
-          <span>Network Forensics</span>
-          <span>Linux Logs</span>
-          <span>Incident Reporting</span>
-          <span>Threat Detection</span>
-        </div>
-        <a class="project-link" href="https://github.com/arzxox/Vought-Labs-Breach-Protocol-writeup" target="_blank" rel="noopener">Read Technical Report on GitHub →</a>
-      </div>
-    </div>
-
-    <div class="project featured-project">
-      <div class="period">2026 · INFRASTRUCTURE</div>
-      <div>
-        <div class="project-top">
+      </article>
+      <article class="lab rv">
+        <div class="year"><b>2026</b>Infrastructure</div>
+        <div>
           <h3>Active Directory &amp; SIEM Detection Lab</h3>
           <span class="badge"><i class="fa-solid fa-server"></i> Enterprise Lab</span>
+          <p>Deployed a Windows Server Active Directory domain environment integrated with Splunk SIEM and Sysmon. Simulated lateral movement and brute-force attacks to create custom Sigma detection rules and dashboard alerts for SOC monitoring.</p>
+          <div class="tags"><span>Active Directory</span><span>Splunk SIEM</span><span>Sysmon</span><span>PowerShell</span><span>Event Logs</span></div>
+          <a class="more" href="https://github.com/arzxox" target="_blank" rel="noopener">View lab configuration <i class="fa-solid fa-arrow-right"></i></a>
         </div>
-        <p>Deployed a Windows Server Active Directory domain environment integrated with Splunk SIEM and Sysmon. Simulated lateral movement and brute-force attacks to create custom Sigma detection rules and dashboard alerts for SOC monitoring.</p>
-        <div class="stack">
-          <span>Active Directory</span>
-          <span>Splunk SIEM</span>
-          <span>Sysmon</span>
-          <span>PowerShell</span>
-          <span>Event Logs</span>
-        </div>
-        <a class="project-link" href="https://github.com/arzxox" target="_blank" rel="noopener">View Lab Configuration →</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="section-head">
-      <h2>Defensive Capabilities</h2>
-      <span class="count">01 · CORE COMPETENCIES</span>
-    </div>
-    <div class="tool-grid">
-      <div class="tool-card">
-        <i class="fa-solid fa-chart-line"></i>
-        <h3>SOC Operations &amp; SIEM</h3>
-        <p>Log aggregation, event correlation, alerting rules, and continuous monitoring using tools like Splunk and Elastic Stack.</p>
-      </div>
-      <div class="tool-card">
-        <i class="fa-solid fa-shield-virus"></i>
-        <h3>Threat Detection &amp; Triage</h3>
-        <p>Investigating security events, analyzing malicious network traffic with Wireshark, and mapping threats to MITRE ATT&amp;CK.</p>
-      </div>
-      <div class="tool-card">
-        <i class="fa-solid fa-globe"></i>
-        <h3>Web Application Security</h3>
-        <p>Identifying OWASP vulnerabilities, evaluating HTTP requests in Burp Suite, and applying defensive mitigations.</p>
-      </div>
-      <div class="tool-card">
-        <i class="fa-solid fa-network-wired"></i>
-        <h3>Network &amp; System Hardening</h3>
-        <p>Analyzing protocols, inspecting firewall policies, auditing Active Directory permissions, and baseline configuration enforcement.</p>
-      </div>
-    </div>
-  </section>
-
-  <section id="certificates">
-    <div class="section-head">
-      <h2>Certificates &amp; Credentials</h2>
-      <span class="count">01 · COMPLETED</span>
-    </div>
-    <div class="cert-list">
-      <article class="cert-card">
-        <div class="cert-icon"><i class="fa-solid fa-certificate"></i></div>
-        <div>
-          <h3>CompTIA Security+ (SY0-701)</h3>
-          <p>Mastered core domains: General Security Concepts, Threats/Vulnerabilities/Mitigations, Security Architecture, IAM, and Security Operations.</p>
-        </div>
-        <span class="cert-status">Passed</span>
       </article>
     </div>
   </section>
 
-  <section id="security">
-    <div class="section-head">
-      <h2>Security Mindset</h2>
+  <section id="projects">
+    <div class="sh rv"><h2>Defensive capabilities</h2></div>
+    <div class="grid4">
+      <div class="card rv"><i class="fa-solid fa-chart-line"></i><h3>SOC Operations &amp; SIEM</h3><p>Log aggregation, event correlation, alerting rules, and continuous monitoring using tools like Splunk and Elastic Stack.</p></div>
+      <div class="card rv"><i class="fa-solid fa-shield-virus"></i><h3>Threat Detection &amp; Triage</h3><p>Investigating security events, analyzing malicious network traffic with Wireshark, and mapping threats to MITRE ATT&amp;CK.</p></div>
+      <div class="card rv"><i class="fa-solid fa-globe"></i><h3>Web Application Security</h3><p>Identifying OWASP vulnerabilities, evaluating HTTP requests in Burp Suite, and applying defensive mitigations.</p></div>
+      <div class="card rv"><i class="fa-solid fa-network-wired"></i><h3>Network &amp; System Hardening</h3><p>Analyzing protocols, inspecting firewall policies, auditing Active Directory permissions, and baseline configuration enforcement.</p></div>
     </div>
-    <p style="color:var(--ink-dim); max-width:56ch; margin-top:-16px; margin-bottom:32px;">I leverage offensive security concepts (CTFs, web exploitation) to understand adversary tactics and build stronger defensive controls, detection rules, and incident handling procedures.</p>
-    <div class="cred-grid">
-      <div class="cred">
-        <h4>Adversary Emulation &amp; CTF</h4>
-        <p>Solving web exploitation and forensic challenges on TryHackMe and Hack The Box to recognize real-world attack behaviors and IoCs.</p>
+  </section>
+
+  <section id="certificates">
+    <div class="sh rv"><h2>Certificates &amp; credentials</h2></div>
+    <article class="cert rv">
+      <div class="seal"><i class="fa-solid fa-certificate"></i></div>
+      <div>
+        <h3>CompTIA Security+ (SY0-701)</h3>
+        <p>Mastered core domains: General Security Concepts, Threats/Vulnerabilities/Mitigations, Security Architecture, IAM, and Security Operations.</p>
       </div>
-      <div class="cred">
-        <h4>Practical Lab Engineering</h4>
-        <p>Building virtual enterprise networks, configuring log pipelines, and testing incident response workflows hands-on.</p>
-      </div>
+      <span class="pass">Passed</span>
+    </article>
+  </section>
+
+  <section id="security">
+    <div class="sh rv"><h2>Security mindset</h2></div>
+    <p class="mind rv">I leverage offensive security concepts (CTFs, web exploitation) to understand adversary tactics and build stronger defensive controls, detection rules, and incident handling procedures.</p>
+    <div class="grid2">
+      <div class="card rv"><h3>Adversary Emulation &amp; CTF</h3><p>Solving web exploitation and forensic challenges on TryHackMe and Hack The Box to recognize real-world attack behaviors and IoCs.</p></div>
+      <div class="card rv"><h3>Practical Lab Engineering</h3><p>Building virtual enterprise networks, configuring log pipelines, and testing incident response workflows hands-on.</p></div>
     </div>
   </section>
 
   <section id="contact">
-    <div class="section-head" style="margin-bottom:28px;">
-      <h2>Get in touch</h2>
-    </div>
-    <p class="big">Looking for an entry-level Security Analyst or SOC team member? Let's talk.</p>
-    <div class="contact-rows">
-      <div class="contact-row">
-        <span class="label">email</span>
-        <a href="mailto:abdularisadka@gmail.com">abdularisadka@gmail.com</a>
-      </div>
-      <div class="contact-row">
-        <span class="label">linkedin</span>
-        <a href="https://www.linkedin.com/in/abdul-aris-ibrahim-844a21154/" target="_blank" rel="noopener">linkedin.com/in/abdularisibrahim</a>
-      </div>
-      <div class="contact-row">
-        <span class="label">github</span>
-        <a href="https://github.com/arzxox" target="_blank" rel="noopener">github.com/arzxox</a>
-      </div>
-      <div class="contact-row">
-        <span class="label">tryhackme</span>
-        <a href="https://tryhackme.com/p/arzxox" target="_blank" rel="noopener">tryhackme.com/p/arzxox</a>
-      </div>
+    <div class="sh rv"><h2>Get in touch</h2></div>
+    <p class="big rv">Looking for an entry-level Security Analyst or SOC team member? Let's talk.</p>
+    <div class="rows rv">
+      <a class="row" href="mailto:abdularisadka@gmail.com"><span>email</span>abdularisadka@gmail.com</a>
+      <a class="row" href="https://www.linkedin.com/in/abdul-aris-ibrahim-844a21154/" target="_blank" rel="noopener"><span>linkedin</span>linkedin.com/in/abdularisibrahim</a>
+      <a class="row" href="https://github.com/arzxox" target="_blank" rel="noopener"><span>github</span>github.com/arzxox</a>
+      <a class="row" href="https://tryhackme.com/p/arzxox" target="_blank" rel="noopener"><span>tryhackme</span>tryhackme.com/p/arzxox</a>
     </div>
   </section>
 
-  <footer>
-    <span>Abdul Aris Ibrahim · Cybersecurity Portfolio</span>
-    <span id="year"></span>
-  </footer>
-
-</div>
+  <footer><span>Abdul Aris Ibrahim · Cybersecurity Portfolio</span><span id="year"></span></footer>
+</main>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('year').textContent = new Date().getFullYear();
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const toggle = document.getElementById('theme-toggle');
-  const root = document.documentElement;
-  const stored = (() => { try { return localStorage.getItem('theme'); } catch(e) { return null; } })();
-  if (stored === 'light' || stored === 'dark') root.setAttribute('data-theme', stored);
+/* typing headline */
+const h1 = document.getElementById('type');
+const text = h1.getAttribute('aria-label');
+if (reduce) h1.textContent = text;
+else {
+  h1.innerHTML = '<span></span><i class="caret"></i>';
+  const s = h1.firstChild; let i = 0;
+  (function tick(){ s.textContent = text.slice(0, ++i); if (i < text.length) setTimeout(tick, 42); })();
+}
 
-  toggle.addEventListener('click', () => {
-    const current = root.getAttribute('data-theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const next = current === 'dark' ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch(e) {}
+/* simulated SOC feed */
+const feed = document.getElementById('feed');
+const lines = [
+  ['info','sysmon','process create: powershell.exe -enc ...'],
+  ['warn','ALERT','4625 failed-logon burst on DC01'],
+  ['good','triage','mapped to MITRE T1110 brute force'],
+  ['info','splunk','correlation search fired: auth_anomaly'],
+  ['warn','ALERT','SMB lateral movement from WS-04'],
+  ['good','sigma','rule matched, ticket escalated'],
+  ['info','burp','GET /item?id=1%27 OR 1=1-- flagged'],
+  ['warn','ALERT','XSS payload in search parameter'],
+  ['good','patch','input sanitized, retest passed'],
+  ['info','nmap','port scan pattern from 10.0.2.15'],
+  ['good','contain','host isolated, IoCs recorded']
+];
+let n = 0;
+function push(){
+  const [c, tag, msg] = lines[n++ % lines.length];
+  const d = document.createElement('div');
+  const t = new Date().toTimeString().slice(0,8);
+  d.innerHTML = `<span class="t">${t}</span> <span class="${c}">[${tag}]</span> ${msg}`;
+  feed.appendChild(d);
+  while (feed.children.length > 12) feed.firstChild.remove();
+}
+for (let k = 0; k < 6; k++) push();
+setInterval(push, reduce ? 4000 : 1400);
+
+/* scroll reveal, progress bar, active nav */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting){ e.target.style.transitionDelay = (e.target.dataset.d || 0) + 'ms'; e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .12 });
+document.querySelectorAll('.rv').forEach(el => {
+  const sib = [...el.parentElement.children].filter(c => c.classList.contains('rv'));
+  el.dataset.d = sib.indexOf(el) * 90;
+  io.observe(el);
+});
+const bar = document.getElementById('progress');
+const links = [...document.querySelectorAll('.top nav a')];
+const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+addEventListener('scroll', () => {
+  const h = document.documentElement;
+  bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
+  let cur = -1; secs.forEach((s, i) => { if (s.getBoundingClientRect().top < innerHeight * .4) cur = i; });
+  links.forEach((a, i) => a.classList.toggle('on', i === cur));
+}, { passive: true });
+
+/* lab cards: spotlight + tilt */
+document.querySelectorAll('.lab').forEach(c => {
+  c.addEventListener('mousemove', e => {
+    const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+    c.style.setProperty('--mx', x + 'px'); c.style.setProperty('--my', y + 'px');
+    if (!reduce) c.style.transform = `perspective(1000px) rotateX(${(y / r.height - .5) * -3}deg) rotateY(${(x / r.width - .5) * 3}deg)`;
   });
-</script>
+  c.addEventListener('mouseleave', () => c.style.transform = '');
+});
 
+/* network canvas: nodes flare red as alerts, then get contained */
+const cv = document.getElementById('bg'), ctx = cv.getContext('2d');
+let W, H, nodes = [], mouse = { x: -999, y: -999 };
+function size(){
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  nodes = Array.from({ length: Math.min(70, Math.floor(W * H / 20000)) }, () => ({
+    x: Math.random() * W, y: Math.random() * H,
+    vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, a: 0, ok: 0
+  }));
+}
+size(); addEventListener('resize', size);
+addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+setInterval(() => { const nd = nodes[Math.random() * nodes.length | 0]; if (nd) nd.a = 1; }, 1600);
+function draw(){
+  ctx.clearRect(0, 0, W, H);
+  for (const p of nodes){
+    if (!reduce){ p.x += p.vx; p.y += p.vy; }
+    if (p.x < 0 || p.x > W) p.vx *= -1;
+    if (p.y < 0 || p.y > H) p.vy *= -1;
+    if (p.a > 0){ p.a -= .006; if (p.a <= 0) p.ok = 1; }
+    if (p.ok > 0) p.ok -= .01;
+  }
+  for (let i = 0; i < nodes.length; i++){
+    const p = nodes[i];
+    for (let j = i + 1; j < nodes.length; j++){
+      const q = nodes[j], d = Math.hypot(p.x - q.x, p.y - q.y);
+      if (d < 150){ ctx.strokeStyle = `rgba(76,201,255,${(1 - d / 150) * .16})`; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke(); }
+    }
+    const dm = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+    if (dm < 180){ ctx.strokeStyle = `rgba(76,201,255,${(1 - dm / 180) * .5})`; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); }
+    if (p.a > 0){
+      ctx.strokeStyle = `rgba(255,93,115,${p.a * .6})`; ctx.beginPath(); ctx.arc(p.x, p.y, 4 + (1 - p.a) * 30, 0, 7); ctx.stroke();
+      ctx.fillStyle = '#ff5d73';
+    } else if (p.ok > 0){
+      ctx.fillStyle = '#7dffb2';
+    } else ctx.fillStyle = 'rgba(76,201,255,.6)';
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.a > 0 || p.ok > 0 ? 3 : 2, 0, 7); ctx.fill();
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
 </body>
 </html>
